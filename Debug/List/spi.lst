@@ -1,0 +1,157 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V1.30.1.50036 for STM8             28/Oct/2019  21:00:27 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\SDCARD\spi.c                #
+#    Command line =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\SDCARD\spi.c -e -Ol         #
+#                    --no_cse --no_unroll --no_inline --no_code_motion        #
+#                    --no_tbaa --no_cross_call --debug --code_model medium    #
+#                    --data_model medium -o F:\单片机例程\1.程序\IAP\IAP---已 #
+#                    测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\Debu #
+#                    g\Obj\ --dlib_config "D:\Program Files (x86)\IAR         #
+#                    Systems\Embedded Workbench 6.0\stm8\LIB\dlstm8mmn.h"     #
+#                    -lcN F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\ #
+#                    STM8L152R8T6\STM8L152R8T6_IAP_APP\Debug\List\ -I         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\ -I                         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\SDCARD\ -I                  #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\src\ --vregs 16             #
+#    List file    =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\List\spi.lst          #
+#    Object file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\spi.o             #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\SDCARD\spi.c
+      1          /**
+      2            ******************************************************************************
+      3            * @文件         spi.c
+      4            * @作者         LGG
+      5            * @版本         V1.0.0
+      6            * @日期         2018-1-22
+      7            * @摘要         spi源文件
+      8            ******************************************************************************
+      9          */ 
+     10          
+     11          /* 包含头文件 ----------------------------------------------------------------*/
+     12          #include "spi.h"
+     13          
+     14          
+     15          /**
+     16            * @函数名       SPI_Config
+     17            * @功  能       SPI配置
+     18            * @参  数       无
+     19            * @返回值       无
+     20            */
+     21          void SPI1_Init(void)
+     22          {
+     23            /* 使能SPI1时钟 */
+     24            //CLK_PeripheralClockConfig(CLK_Peripheral_SPI1, ENABLE);
+     25            CLK_PCKENR1_PCKEN14=1;//打开SPI1外设时钟
+     26            /* 配置MISO引脚为上拉输入 */
+     27            //GPIO_Init(SPI_MISO_GPIO_PORT, SPI_MISO_GPIO_PINS, GPIO_Mode_In_PU_No_IT);
+     28            PB_DDR_bit.DDR7=0; PB_CR1_bit.C17=1;PB_CR2_bit.C27=0;
+     29            /* 配置MOSI引脚为推挽输出 */
+     30            //GPIO_Init(SPI_MOSI_GPIO_PORT, SPI_MOSI_GPIO_PINS, GPIO_Mode_Out_PP_High_Fast);
+     31            PB_DDR_bit.DDR6=1; PB_CR1_bit.C16=1;PB_CR2_bit.C26=1;
+     32            /* 配置SCK引脚为推挽输出 */
+     33            //GPIO_Init(SPI_SCK_GPIO_PORT, SPI_SCK_GPIO_PINS, GPIO_Mode_Out_PP_High_Fast);
+     34            PB_DDR_bit.DDR5=1; PB_CR1_bit.C15=1;PB_CR2_bit.C25=1;
+     35            /* 配置NSS引脚为推挽输出 */
+     36            //GPIO_Init(SPI_NSS_GPIO_PORT, SPI_NSS_GPIO_PINS, GPIO_Mode_Out_PP_High_Fast);
+     37            PB_DDR_bit.DDR4=1; PB_CR1_bit.C14=1;PB_CR2_bit.C24=1;
+     38            /* 拉高NSS引脚 */
+     39            SPI_NSS_HIGH();
+     40            
+     41            /* 初始化SPI1，高位先发送， 时钟8分频，SPI主模式，空闲相位高，
+     42               第二个时钟沿发送数据，NSS引脚软件控制，CRC校验：0x55
+     43           */
+     44            //SPI_Init(SPI1, SPI_FirstBit_MSB, SPI_BaudRatePrescaler_4, SPI_Mode_Master,
+     45                    // SPI_CPOL_High, SPI_CPHA_2Edge, SPI_Direction_2Lines_FullDuplex, SPI_NSS_Soft, 0x07);
+     46            
+     47            SPI1_CR1_SPE=0;//关闭SPI设备
+     48            //设置串行波特率
+     49            SPI1_CR1_BR=0;//fmaster/2=1M
+     50            //配置CPOL和CPHA，定义数据传输和串行时钟间的相位关系
+     51            SPI1_CR1_CPHA=0;//数据采样从第一个时钟边沿开始
+     52            SPI1_CR1_CPOL=0;//空闲状态时，SCK保持低电平  
+     53             //定义帧格式
+     54            SPI1_CR1_LSBFIRST=0;//先发送MSB 
+     55            //使能从设备管理//主模式需通过改变SSI位 来控制SPI_SEL
+     56            SPI1_CR2_SSM=1;//禁止软件从设备
+     57            SPI1_CR2_SSI=1;
+     58            //主从设备模式选择
+     59            SPI1_CR1_MSTR=1;//作为主设备
+     60            SPI1_CR2_RXONLY=0;//全双工
+     61            SPI1_CR2_BDM=0;//选择单向数据模式
+     62            SPI1_CR1_SPE=1;//开启SPI设备
+     63            
+     64            
+     65            
+     66            //SPI_Cmd(SPI1, ENABLE);      //使能SPI
+     67            
+     68            
+     69          }
+     70          
+     71          
+     72          /**
+     73            * @函数名       SPI_RW_Byte
+     74            * @功  能       SPI读写一个字节
+     75            * @参  数       data：写入的字节
+     76            * @返回值       temp：读取的字节
+     77            */
+     78          uint8_t SPI1_ReadWriteByte(uint8_t data)
+     79          {
+     80            uint8_t temp;
+     81            
+     82            /* 等待SPI1空闲 */
+     83            while (!(SPI1_SR_TXE));
+     84            
+     85            /* SPI1发送数据 */
+     86            //SPI_SendData(SPI1, data);
+     87            SPI1_DR=data;//写入需要操作的寄存器地址,
+     88            /* 等待接受一字节数据 */
+     89            while (!(SPI1_SR_RXNE));
+     90            
+     91            /* 读取接收的数据 */
+     92            temp = SPI1_DR;
+     93            
+     94            /* 返回接收的数据 */
+     95            return temp;
+     96          }
+     97          
+     98          /************************ Copyright (C)2017 LGG. All Rights Reserved *****END OF FILE****/
+     99          
+
+   Section sizes:
+
+     Function/Label     Bytes
+     --------------     -----
+     _A_PB_ODR             1
+     _A_PB_DDR             1
+     _A_PB_CR1             1
+     _A_PB_CR2             1
+     _A_CLK_PCKENR1        1
+     _A_SPI1_CR1           1
+     _A_SPI1_CR2           1
+     _A_SPI1_SR            1
+     SPI1_DR               1
+     SPI1_Init           105
+     SPI1_ReadWriteByte   26
+
+ 
+ 131 bytes in section .far_func.text
+   9 bytes in section .near.noinit
+ 
+ 131 bytes of CODE memory
+   0 bytes of DATA memory (+ 9 bytes shared)
+
+Errors: none
+Warnings: none

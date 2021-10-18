@@ -1,0 +1,394 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V1.30.1.50036 for STM8             28/Oct/2019  21:00:25 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\TSM12.c                     #
+#    Command line =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\TSM12.c -e -Ol --no_cse     #
+#                    --no_unroll --no_inline --no_code_motion --no_tbaa       #
+#                    --no_cross_call --debug --code_model medium              #
+#                    --data_model medium -o F:\单片机例程\1.程序\IAP\IAP---已 #
+#                    测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\Debu #
+#                    g\Obj\ --dlib_config "D:\Program Files (x86)\IAR         #
+#                    Systems\Embedded Workbench 6.0\stm8\LIB\dlstm8mmn.h"     #
+#                    -lcN F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\ #
+#                    STM8L152R8T6\STM8L152R8T6_IAP_APP\Debug\List\ -I         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\ -I                         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\SDCARD\ -I                  #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\src\ --vregs 16             #
+#    List file    =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\List\TSM12.lst        #
+#    Object file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\TSM12.o           #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\TSM12.c
+      1          #include "TSM12.h"
+      2          
+      3          extern void delay(unsigned int ms);
+      4          
+      5          unsigned char TSM12_Value[3];
+      6          unsigned char Key_Value;
+      7          
+      8          /*******************************************************************************
+      9          * 名 称: TSM12_Init()
+     10          * 功 能: TSM12M 功能初始化
+     11          * 入口参数 : 无
+     12          * 出口参数 : 无
+     13          * 说 明:
+     14          *******************************************************************************/
+     15          void TSM12_Init(void)
+     16          {
+     17            TSM12_IIC_Init();
+     18            /* Power ON */
+     19            TSM12_TSM_EN=0;
+     20            delay(500);
+     21            /* H/W Reset, enable software reset */
+     22            TSM12_Write_Byte(CTRL2, 0x0F);//enable sleep mode
+     23            delay(200);
+     24            /* Sensitivity setting ,0x00 灵敏度最高， */
+     25            TSM12_Write_Byte(SENS1, CH_SENS(7,7));// 9, 6
+     26            TSM12_Write_Byte(SENS2, CH_SENS(7,7));// 3, #
+     27            TSM12_Write_Byte(SENS3, CH_SENS(7,7));// 8, 5
+     28            TSM12_Write_Byte(SENS4, CH_SENS(7,7));// 2, 0
+     29            TSM12_Write_Byte(SENS5, CH_SENS(7,7));// *, 1
+     30            TSM12_Write_Byte(SENS6, CH_SENS(7,7));// 4, 7
+     31            /* General Control Register1 setting */
+     32            TSM12_Write_Byte(CTRL1, 0x33);
+     33            TSM12_TSM_Write_2Byte(REF_RST1, 0x00, 0x00);//renew value of everyone channel
+     34            TSM12_TSM_Write_2Byte(CH_HOLD1, 0x00, 0x00);//enable all channels
+     35            //TSM_EN=1;//TSM12 I2C disable
+     36            TSM12_Write_Byte(CTRL2, 0x03);
+     37            //reset off
+     38            TSM12_Exit_Sleep_Mode();
+     39          }
+     40          
+     41          /*******************************************************************************
+     42          * 名 称: TSM12_Into_Sleep_Mode()
+     43          * 功 能: TSM12M 进入低功耗模式
+     44          * 入口参数 : 无
+     45          * 出口参数 : 无
+     46          * 说 明:
+     47          *******************************************************************************/
+     48          void TSM12_Into_Sleep_Mode(void)
+     49          {
+     50            TSM12_TSM_EN=1;// 如果之前的操作过 TSM_EN_L 必不可少
+     51            delay(100);
+     52            TSM12_TSM_EN=0;//i2c enable
+     53            delay(100);
+     54            TSM12_Write_Byte(CTRL2, 0x07);
+     55            TSM12_TSM_EN=1;
+     56          }
+     57          
+     58          /*******************************************************************************
+     59          * 名 称: TSM12_Exit_Sleep_Mode()
+     60          * 功 能: TSM12M 退出低功耗模式
+     61          * 入口参数 : 无
+     62          * 出口参数 : 无
+     63          * 说 明:
+     64          *******************************************************************************/
+     65          void TSM12_Exit_Sleep_Mode(void)
+     66          {
+     67            TSM12_TSM_EN=0;//i2c enable
+     68            delay(100);
+     69            TSM12_Write_Byte(CTRL2, 0x03);
+     70          }
+     71          
+     72          u8 TSM12_READ_KEY(u8 *Temp)
+     73          {
+     74            //*Temp=TSM_ReadOneByte(CTRL1);
+     75            *Temp=TSM12_IIC_Read_Byte(OUTPUT1);
+     76            *(Temp+1)=TSM12_IIC_Read_Byte(OUTPUT2);
+     77            *(Temp+2)=TSM12_IIC_Read_Byte(OUTPUT3);
+     78            return 1;
+     79          }
+     80          
+     81          void TSM12_GET_Key(void)
+     82          {
+     83            TSM12_READ_KEY(TSM12_Value);
+     84            if(TSM12_Value[2]==0x03) Key_Value=0x01;
+     85            else if(TSM12_Value[1]==0xc0) Key_Value=0x02;
+     86            else if(TSM12_Value[0]==0xc0) Key_Value=0x03;
+     87            else if(TSM12_Value[2]==0x0c) Key_Value=0x04;
+     88            else if(TSM12_Value[1]==0x30) Key_Value=0x05;
+     89            else if(TSM12_Value[0]==0x30) Key_Value=0x06;
+     90            else if(TSM12_Value[2]==0x30) Key_Value=0x07;
+     91            else if(TSM12_Value[1]==0x0c) Key_Value=0x08;
+     92            else if(TSM12_Value[0]==0x0c) Key_Value=0x09;
+     93            else if(TSM12_Value[2]==0xc0) Key_Value=0x0a;
+     94            else if(TSM12_Value[1]==0x03) Key_Value=0x00;
+     95            else if(TSM12_Value[0]==0x03) Key_Value=0x0b;
+     96            
+     97          }
+     98          
+     99          //初始化IIC
+    100          void TSM12_IIC_Init(void)
+    101          {
+    102            PE_DDR_bit.DDR0=1; PE_CR1_bit.C10=1;PE_CR2_bit.C20=1;//SDA
+    103            PE_DDR_bit.DDR1=1; PE_CR1_bit.C11=1;PE_CR2_bit.C21=1;//SCL
+    104            //PE_DDR_bit.DDR2=0; PE_CR1_bit.C12=1;PE_CR2_bit.C22=1;//IRQ
+    105            PG_DDR_bit.DDR7=1; PG_CR1_bit.C17=1;PG_CR2_bit.C27=1;//I2C_EN
+    106            //PD_DDR_bit.DDR0=1; PD_CR1_bit.C10=1;PD_CR2_bit.C20=1;//RESET
+    107          }
+    108          //产生IIC起始信号
+    109          void TSM12_IIC_Start(void)
+    110          {
+    111            SDA_OUT();//sda线输出
+    112            TSM12_IIC_SDA=1;	  	  
+    113            TSM12_IIC_SCL=1;
+    114            TSM12_IIC_Delay(2);
+    115            TSM12_IIC_SDA=0;
+    116            TSM12_IIC_Delay(2);
+    117            TSM12_IIC_SCL=0;//钳住I2C总线，准备发送或接收数据 
+    118          }	  
+    119          //产生IIC停止信号
+    120          void TSM12_IIC_Stop(void)
+    121          {
+    122            SDA_OUT();//sda线输出
+    123            TSM12_IIC_SCL=0;
+    124            TSM12_IIC_SDA=0;
+    125            TSM12_IIC_Delay(2);
+    126            TSM12_IIC_SCL=1; 
+    127            TSM12_IIC_Delay(2);
+    128            TSM12_IIC_SDA=1;//发送I2C总线结束信号
+    129            TSM12_IIC_Delay(2);
+    130          }
+    131          //等待应答信号到来
+    132          //返回值：1，接收应答失败
+    133          //        0，接收应答成功
+    134          u8 TSM12_IIC_Wait_Ack(void)
+    135          {
+    136            u8 ucErrTime=0;
+    137            SDA_OUT();
+    138            TSM12_IIC_SDA=1;TSM12_IIC_Delay(2);	   
+    139            TSM12_IIC_SCL=1;TSM12_IIC_Delay(2);	 
+    140            SDA_IN();      //SDA设置为输入  
+    141            while(TSN12_READ_SDA)
+    142            {
+    143              ucErrTime++;
+    144              if(ucErrTime>250)
+    145              {
+    146                TSM12_IIC_Stop();
+    147                return 1;
+    148              }
+    149            }
+    150            TSM12_IIC_SCL=0;//时钟输出0 	   
+    151            return 0;  
+    152          } 
+    153          //产生ACK应答
+    154          void TSM12_IIC_Ack(void)
+    155          {
+    156            TSM12_IIC_SCL=0;
+    157            SDA_OUT();
+    158            TSM12_IIC_SDA=0;
+    159            TSM12_IIC_Delay(2);
+    160            TSM12_IIC_SCL=1;
+    161            TSM12_IIC_Delay(2);
+    162            TSM12_IIC_SCL=0;
+    163          }
+    164          //不产生ACK应答		    
+    165          void TSM12_IIC_NAck(void)
+    166          {
+    167            TSM12_IIC_SCL=0;
+    168            SDA_OUT();
+    169            TSM12_IIC_SDA=1;
+    170            TSM12_IIC_Delay(2);
+    171            TSM12_IIC_SCL=1;
+    172            TSM12_IIC_Delay(2);
+    173            TSM12_IIC_SCL=0;
+    174          }					 				     
+    175          //IIC发送一个字节
+    176          //返回从机有无应答
+    177          //1，有应答
+    178          //0，无应答			  
+    179          void TSM12_IIC_Send_Byte(u8 txd)
+    180          {                        
+    181            u8 t;   
+    182            SDA_OUT(); 	    
+    183            TSM12_IIC_SCL=0;//拉低时钟开始数据传输
+    184            for(t=0;t<8;t++)
+    185            {              
+    186              TSM12_IIC_SDA=(txd&0x80)>>7;
+    187              txd<<=1; 	  
+    188              TSM12_IIC_Delay(2);   //对TEA5767这三个延时都是必须的
+    189              TSM12_IIC_SCL=1;
+    190              TSM12_IIC_Delay(2); 
+    191              TSM12_IIC_SCL=0;	
+    192              TSM12_IIC_Delay(2);
+    193            }
+    194          }
+    195          //读1个字节，ack=1时，发送ACK，ack=0，发送nACK   
+    196          u8 IIC_Read_Byte(unsigned char ack)
+    197          {
+    198            unsigned char i,receive=0;
+    199            SDA_IN();//SDA设置为输入
+    200            for(i=0;i<8;i++ )
+    201            {
+    202              TSM12_IIC_SCL=0; 
+    203              TSM12_IIC_Delay(2);
+    204              TSM12_IIC_SCL=1;
+    205              receive<<=1;
+    206              if(TSN12_READ_SDA)receive++;   
+    207              TSM12_IIC_Delay(2); 
+    208            }
+    209            if (!ack)
+    210              TSM12_IIC_NAck();//发送nACK
+    211            else
+    212              TSM12_IIC_Ack(); //发送ACK   
+    213            return receive;
+    214          }
+    215          
+    216          
+    217          void TSM12_IIC_Delay(unsigned char dat)
+    218          {
+    219            for(u8 i=0; i<dat; i++)
+    220            {
+    221              asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
+    222              asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
+    223              asm("nop");asm("nop");asm("nop");asm("nop");asm("nop");
+    224            }
+    225          }
+    226          
+    227          /*-----------------------------------------------------------------------------
+    228          功能：向 TSM12 写单字节数据或命令
+    229          输入： writeData-- 被写数据， WriteAddr-- 待写入数据寄存器地址
+    230          返回： ErrorStatus
+    231          ------------------------------------------------------------------------------*/
+    232          u8 TSM12_Write_Byte(u8 WriteAddr,u8 WriteData)
+    233          {
+    234            /* 发送起始位 */
+    235            TSM12_IIC_Start();//---------------------------OK
+    236            /* 发送器件地址 */
+    237            TSM12_IIC_Send_Byte(DEVICE_WRITE_ADDR);//------OK
+    238            if(TSM12_IIC_Wait_Ack()) return ERROR;//0X09---OK
+    239            /* 发送待写入数据的寄存器地址 */
+    240            TSM12_IIC_Send_Byte(WriteAddr);//0X0 ----------OK
+    241            if(TSM12_IIC_Wait_Ack()) return ERROR;//-------OK
+    242            /* 发送数据到寄存器中 */
+    243            TSM12_IIC_Send_Byte(WriteData);//--------------OK
+    244            if(TSM12_IIC_Wait_Ack()) return ERROR;//-------OK
+    245            /* 产生停止位 */
+    246            TSM12_IIC_Stop();//----------------------------OK
+    247            return SUCCESS;
+    248          }
+    249          
+    250          /* ----------------------------------------------------------------------------
+    251          功能：向 GT216L 写双字节数据或命令
+    252          输入： writeData1 ，2--被写数据， WriteAddr-- 待写入数据寄存器地址
+    253          返回： ErrorStatus
+    254          ------------------------------------------------------------------------------*/
+    255          u8 TSM12_TSM_Write_2Byte(u8 WriteAddr, u8 WriteData1, u8 WriteData2)
+    256          {
+    257            /* 发送起始位 */
+    258            TSM12_IIC_Start();
+    259            /* 发送器件地址 */
+    260            TSM12_IIC_Send_Byte(DEVICE_WRITE_ADDR);
+    261            if(TSM12_IIC_Wait_Ack()) return ERROR;
+    262            /* 发送待写入数据的寄存器起始地址 */
+    263            TSM12_IIC_Send_Byte(WriteAddr);
+    264            if(TSM12_IIC_Wait_Ack()) return ERROR;
+    265            /* 发送数据 1 到寄存器中，即 LSB */
+    266            TSM12_IIC_Send_Byte(WriteData1);
+    267            if(TSM12_IIC_Wait_Ack()) return ERROR;
+    268            /* 发送数据 2 到寄存器中，即 MSB */
+    269            TSM12_IIC_Send_Byte(WriteData2);
+    270            if(TSM12_IIC_Wait_Ack()) return ERROR;
+    271            /* 产生停止位 */
+    272            TSM12_IIC_Stop();
+    273            return SUCCESS;
+    274          }
+    275          
+    276          /*******************************************************************************
+    277          * 名 称: TSM_ReadOneByte()
+    278          * 功 能: 读单个字节数据
+    279          * 入口参数 : writeAddr-- 待写入数据寄存器地址
+    280          * 出口参数 : 被读出数据 , ERROR
+    281          * 说 明:
+    282          *******************************************************************************/
+    283          u8 TSM12_IIC_Read_Byte(u8 writeAddr)
+    284          {
+    285            unsigned char buffer = 0;
+    286            // 第一阶段
+    287            /* 发送起始位 */
+    288            TSM12_IIC_Start();//------------------OK
+    289            /* 发送器件地址 */
+    290            TSM12_IIC_Send_Byte(DEVICE_WRITE_ADDR);//0xd0-------------OK
+    291            if(TSM12_IIC_Wait_Ack()) goto L_OUT;//--------------------OK
+    292            /* 发送被操作寄存器首地址 */
+    293            TSM12_IIC_Send_Byte(writeAddr);//0X10---------------------OK
+    294            if(TSM12_IIC_Wait_Ack()) goto L_OUT;//--------------------OK
+    295            /* 产生停止位 */
+    296            TSM12_IIC_Stop();//---------------------------------------OK
+    297            // 第二阶段
+    298            /* 发送起始位 */
+    299            TSM12_IIC_Start();//--------------------------------------OK
+    300            /* 发送 GT216L 器件地址 */
+    301            TSM12_IIC_Send_Byte(DEVICE_READ_ADDR);//0XD1--------------OK
+    302            if(TSM12_IIC_Wait_Ack()) goto L_OUT;//--------------------OK
+    303            /* 产生一个应该应答信号 */
+    304            buffer = IIC_Read_Byte(0);//------------------------OK
+    305            //I2C_SendAck(1);
+    306            /* 产生停止位 */
+    307            TSM12_IIC_Stop();//---------------------------------------
+    308            return buffer;
+    309            L_OUT:
+    310            /* 产生停止位 */
+    311            TSM12_IIC_Stop();
+    312            return ERROR;
+    313          }
+    314          
+    315          
+    316          
+    317          
+    318          
+
+   Section sizes:
+
+     Function/Label        Bytes
+     --------------        -----
+     _A_PE_ODR                1
+     _A_PE_IDR                1
+     _A_PE_DDR                1
+     _A_PE_CR1                1
+     _A_PE_CR2                1
+     _A_PG_ODR                1
+     _A_PG_DDR                1
+     _A_PG_CR1                1
+     _A_PG_CR2                1
+     TSM12_Value              3
+     Key_Value                1
+     TSM12_Init             136
+     TSM12_Into_Sleep_Mode   37
+     TSM12_Exit_Sleep_Mode   21
+     TSM12_READ_KEY          32
+     TSM12_GET_Key          151
+     TSM12_IIC_Init          37
+     TSM12_IIC_Start         41
+     TSM12_IIC_Stop          46
+     TSM12_IIC_Wait_Ack      76
+     TSM12_IIC_Ack           41
+     TSM12_IIC_NAck          41
+     TSM12_IIC_Send_Byte     76
+     IIC_Read_Byte           85
+     TSM12_IIC_Delay         27
+     TSM12_Write_Byte        64
+     TSM12_TSM_Write_2Byte   83
+     TSM12_IIC_Read_Byte     78
+
+ 
+ 1 072 bytes in section .far_func.text
+     4 bytes in section .near.bss
+     9 bytes in section .near.noinit
+ 
+ 1 072 bytes of CODE memory
+     4 bytes of DATA memory (+ 9 bytes shared)
+
+Errors: none
+Warnings: none

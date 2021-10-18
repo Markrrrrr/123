@@ -1,0 +1,221 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V1.30.1.50036 for STM8             28/Oct/2019  21:00:25 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\src\diskio.c                #
+#    Command line =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\src\diskio.c -e -Ol         #
+#                    --no_cse --no_unroll --no_inline --no_code_motion        #
+#                    --no_tbaa --no_cross_call --debug --code_model medium    #
+#                    --data_model medium -o F:\单片机例程\1.程序\IAP\IAP---已 #
+#                    测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\Debu #
+#                    g\Obj\ --dlib_config "D:\Program Files (x86)\IAR         #
+#                    Systems\Embedded Workbench 6.0\stm8\LIB\dlstm8mmn.h"     #
+#                    -lcN F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\ #
+#                    STM8L152R8T6\STM8L152R8T6_IAP_APP\Debug\List\ -I         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\ -I                         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\SDCARD\ -I                  #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\src\ --vregs 16             #
+#    List file    =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\List\diskio.lst       #
+#    Object file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\diskio.o          #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\src\diskio.c
+      1          /*-----------------------------------------------------------------------*/
+      2          /* Low level disk I/O module skeleton for FatFs     (C)ChaN, 2013        */
+      3          /*-----------------------------------------------------------------------*/
+      4          /* If a working storage control module is available, it should be        */
+      5          /* attached to the FatFs via a glue function rather than modifying it.   */
+      6          /* This is an example of glue functions to attach various exsisting      */
+      7          /* storage control module to the FatFs module with a defined API.        */
+      8          /*-----------------------------------------------------------------------*/
+      9          
+     10          #include "diskio.h"		/* FatFs lower layer API */
+     11          #include "MMC_SD.h"
+     12          //#include "RTC.h"
+     13          
+     14          #define SD_CARD	 0  //SD卡,卷标为0
+     15          
+     16          //初始化磁盘
+     17          DSTATUS disk_initialize (
+     18          	BYTE pdrv				/* Physical drive nmuber (0..) */
+     19          )
+     20          {
+     21            u8 res=0;
+     22            switch(pdrv)
+     23            {
+     24            case SD_CARD://SD卡
+     25              res=SD_Initialize();//SD卡初始化 
+     26              break;
+     27            default:
+     28              res=1;
+     29              //break;
+     30            }
+     31            if(res)return  STA_NOINIT;
+     32            else return 0; //初始化成功
+     33          }
+     34          
+     35          //获得磁盘状态
+     36          /* 
+     37          //Tinv—FatFs 只支持一个存储媒介，所以 drv 应恒为 O。
+     38          //执行无误返回 0，错误返回非 O。
+     39          */
+     40          DSTATUS disk_status (
+     41          	BYTE pdrv		/* Physical drive nmuber (0..) */
+     42          )
+     43          { 
+     44          	return 0;
+     45          } 
+     46          
+     47          //读扇区
+     48          //drv:磁盘编号0~9
+     49          //*buff:数据接收缓冲首地址
+     50          //sector:扇区地址
+     51          //count:需要读取的扇区数
+     52          DRESULT disk_read (
+     53          	BYTE pdrv,		/* Physical drive nmuber (0..) */
+     54          	BYTE *buff,		/* Data buffer to store read data */
+     55          	DWORD sector,	/* Sector address (LBA) */
+     56          	UINT count		/* Number of sectors to read (1..128) */
+     57          )
+     58          {
+     59            u8 res=0;
+     60            if (!count)return RES_PARERR;//count不能等于0，否则返回参数错误		 	 
+     61            switch(pdrv)
+     62            {
+     63              case SD_CARD://SD卡
+     64                res=SD_ReadDisk(buff,sector,count);
+     65                while(res)//读出错
+     66                {
+     67                  SD_Initialize();	//重新初始化SD卡
+     68                  res=SD_ReadDisk(buff,sector,count);	
+     69                  //printf("sd rd error:%d\r\n",res);
+     70                }
+     71                break;
+     72            default:
+     73              res=1; 
+     74            }
+     75            //处理返回值，将SPI_SD_driver.c的返回值转成ff.c的返回值
+     76            if(res==0x00)return RES_OK;	 
+     77            else return RES_ERROR;	   
+     78          }
+     79          
+     80          //写扇区
+     81          //drv:磁盘编号0~9
+     82          //*buff:发送数据首地址
+     83          //sector:扇区地址
+     84          //count:需要写入的扇区数
+     85          #if _USE_WRITE
+     86          DRESULT disk_write (
+     87          	BYTE pdrv,			/* Physical drive nmuber (0..) */
+     88          	const BYTE *buff,	/* Data to be written */
+     89          	DWORD sector,		/* Sector address (LBA) */
+     90          	UINT count			/* Number of sectors to write (1..128) */
+     91          )
+     92          {
+     93            u8 res=0;
+     94            if (!count)return RES_PARERR;//count不能等于0，否则返回参数错误		 	 
+     95            switch(pdrv)
+     96            {
+     97              case SD_CARD://SD卡
+     98                res=SD_WriteDisk((u8*)buff,sector,count);
+     99                while(res)//写出错
+    100                {
+    101                  SD_Initialize();//重新初始化SD卡
+    102                  res=SD_WriteDisk((u8*)buff,sector,count);	
+    103                  //printf("sd wr error:%d\r\n",res);
+    104                }
+    105                break;
+    106            default:
+    107              res=1; 
+    108            }
+    109            //处理返回值，将SPI_SD_driver.c的返回值转成ff.c的返回值
+    110            if(res == 0x00)return RES_OK;	 
+    111            else return RES_ERROR;	
+    112          }
+    113          #endif
+    114          
+    115          
+    116          //其他表参数的获得
+    117           //drv:磁盘编号0~9
+    118           //ctrl:控制代码
+    119           //*buff:发送/接收缓冲区指针
+    120          #if _USE_IOCTL
+    121          DRESULT disk_ioctl (
+    122          	BYTE pdrv,		/* Physical drive nmuber (0..) */
+    123          	BYTE cmd,		/* Control code */
+    124          	void *buff		/* Buffer to send/receive control data */
+    125          )
+    126          {
+    127            DRESULT res;
+    128            if(pdrv==SD_CARD)//SD卡
+    129            {
+    130              switch(cmd)
+    131              {
+    132              case CTRL_SYNC:
+    133                res = RES_OK;
+    134                break;
+    135              case GET_SECTOR_SIZE:    //扇区大小
+    136                *(DWORD*)buff = 512;
+    137                res = RES_OK;
+    138                break;
+    139              case GET_BLOCK_SIZE:   //返回以扇区为单位的存储阵列的擦除块大小
+    140                *(WORD*)buff = 8;
+    141                res = RES_OK;
+    142                break;
+    143              case GET_SECTOR_COUNT:  //扇区数
+    144                *(DWORD*)buff = SD_GetSectorCount();
+    145                res = RES_OK;
+    146                break;
+    147              default:
+    148                res = RES_PARERR;
+    149                break;
+    150              }
+    151            }
+    152            else res=RES_ERROR;//其他的不支持
+    153            return res;
+    154          }
+    155          #endif
+    156          //获得时间
+    157          //User defined function to give a current time to fatfs module      */
+    158          //31-25: Year(0-127 org.1980), 24-21: Month(1-12), 20-16: Day(1-31) */                                                                                                                                                                                                                                          
+    159          //15-11: Hour(0-23), 10-5: Minute(0-59), 4-0: Second(0-29 *2) */                                                                                                                                                                                                                                                
+    160          DWORD get_fattime (void)
+    161          {				 
+    162          	//return (((u32)(RTC_DateStr.RTC_Year-(RTC_DateStr.RTC_Year>>4)*6)+20) << 25) /* Year */
+    163                  //      | ((u32)(RTC_DateStr.RTC_Month-(RTC_DateStr.RTC_Month>>4)*6) << 21)      /* Month*/
+    164                  //      | ((u32)(RTC_DateStr.RTC_Date-(RTC_DateStr.RTC_Date>>4)*6) << 16)       /* Day*/
+    165                  //      | ((u32)(RTC_TimeStr.RTC_Hours-(RTC_TimeStr.RTC_Hours>>4)*6) << 11)      /* Hour*/
+    166                  //      | ((u32)(RTC_TimeStr.RTC_Minutes-(RTC_TimeStr.RTC_Minutes>>4)*6) << 5)     /* Min*/
+    167                  //      | ((u32)(RTC_TimeStr.RTC_Seconds-(RTC_TimeStr.RTC_Seconds>>4)*6) >> 1)     /* Sec*/
+    168          //;
+    169            return 0;
+    170          }			 
+
+   Section sizes:
+
+     Function/Label  Bytes
+     --------------  -----
+     disk_initialize   26
+     disk_status        2
+     disk_read         86
+     disk_write        86
+     disk_ioctl        87
+     get_fattime        6
+
+ 
+ 293 bytes in section .far_func.text
+ 
+ 293 bytes of CODE memory
+
+Errors: none
+Warnings: none

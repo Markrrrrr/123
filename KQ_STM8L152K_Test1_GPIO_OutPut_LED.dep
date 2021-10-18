@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>1105436655</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$PROJ_DIR$\SDCARD\FSCTR.c</file>
+      <file>$PROJ_DIR$\src\diskio.c</file>
+      <file>$PROJ_DIR$\src\ff.c</file>
+      <file>$PROJ_DIR$\SDCARD\MMC_SD.C</file>
+      <file>$PROJ_DIR$\SDCARD\spi.c</file>
+      <file>$PROJ_DIR$\AT24C02.c</file>
+      <file>$PROJ_DIR$\i2cDs1307.c</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\oled.c</file>
+      <file>$PROJ_DIR$\TSM12.c</file>
+      <file>$PROJ_DIR$\Debug\List\MMC_SD.lst</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\spi.pbi</file>
+      <file>$PROJ_DIR$\SDCARD\spi.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\MMC_SD.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\MMC_SD.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\FSCTR.pbi</file>
+      <file>$PROJ_DIR$\src\diskio.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\Debug\List\spi.lst</file>
+      <file>$PROJ_DIR$\Debug\List\AT24C02.lst</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\AT24C02.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\KQ_STM8L152K_Test1_GPIO_OutPut_LED.pbd</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\i2cDs1307.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\main.lst</file>
+      <file>$PROJ_DIR$\Debug\List\FSCTR.lst</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\Debug\List\TSM12.lst</file>
+      <file>$PROJ_DIR$\Debug\List\diskio.lst</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\i2cDs1307.o</file>
+      <file>$PROJ_DIR$\Debug\List\KQ_STM8L152K_Test1_GPIO_OutPut_LED.map</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\AT24C02.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\ff.o</file>
+      <file>$PROJ_DIR$\Debug\Exe\KQ_STM8L152K_Test1_GPIO_OutPut_LED.out</file>
+      <file>$PROJ_DIR$\Debug\List\oled.lst</file>
+      <file>$PROJ_DIR$\OLED.h</file>
+      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
+      <file>$PROJ_DIR$\AT24C02.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
+      <file>$PROJ_DIR$\src\ff.h</file>
+      <file>$TOOLKIT_DIR$\inc\iostm8l152R8.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\oled.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\oled.pbi</file>
+      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\TSM12.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\i2cDs1307.lst</file>
+      <file>$PROJ_DIR$\i2cds1307.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\TSM12.o</file>
+      <file>$PROJ_DIR$\TSM12.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\KQ_STM8L152K_Test1_GPIO_OutPut_LED.bin</file>
+      <file>$PROJ_DIR$\Debug\Obj\diskio.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\diskio.pbi</file>
+      <file>$PROJ_DIR$\src\ffconf.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ff.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\FSCTR.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\spi.o</file>
+      <file>$PROJ_DIR$\Debug\List\ff.lst</file>
+      <file>$PROJ_DIR$\src\integer.h</file>
+      <file>$PROJ_DIR$\SDCARD\MMC_SD.h</file>
+      <file>$PROJ_DIR$\..\..\..\&#x5176;&#x4eD6;&#x53C2;&#x8003;&#x4F8B;&#x7A0B;\STM8L152R8T6\STM8L152&#x6D4B;&#x8BD5;TSM121-APP-3\lnkstm8l152r8.icf</file>
+    </outputs>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 43 39</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\SDCARD\FSCTR.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 31 65</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50 46 13 69 49 68 63 45</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 50 46 13 69 49 68 63 45</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\diskio.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 62</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 34 61</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17 68 69 50 46 13</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 17 68 69 50 46 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\ff.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 64</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 67 42</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 49 68 63 17 11 37 25 32 18 28 40</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 49 68 63 17 11 37 25 32 48 18 28 40</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\SDCARD\MMC_SD.C</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 10 15</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 69 50 46 13</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 69 50 46 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\SDCARD\spi.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 19 66</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 50 46</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 13 50 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\AT24C02.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 24</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 20 41</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50 46 21 37 25 32 18 28 40 35 36 23 47 45</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 50 46 21 37 25 32 48 18 28 40 35 36 23 47 45</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\i2cDs1307.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 29</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 56 38</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50 46 57</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 50 46 57</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 26</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 30 22</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50 46 45 57 59 47 69 13</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 50 46 45 57 59 47 69 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\oled.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 53</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 44 52</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50 46 45</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 50 46 45</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\TSM12.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 55</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 33 58</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 59 50 46</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 59 50 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\KQ_STM8L152K_Test1_GPIO_OutPut_LED.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 24 16 14 55 62 64 29 26 53 12</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\KQ_STM8L152K_Test1_GPIO_OutPut_LED.out</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 39</file>
+        </tool>
+        <tool>
+          <name>OBJCOPY</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 70 41 65 15 58 61 42 38 22 52 66 51 54</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

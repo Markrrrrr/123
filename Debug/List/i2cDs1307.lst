@@ -1,0 +1,236 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V1.30.1.50036 for STM8             28/Oct/2019  21:00:26 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\i2cDs1307.c                 #
+#    Command line =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\i2cDs1307.c -e -Ol          #
+#                    --no_cse --no_unroll --no_inline --no_code_motion        #
+#                    --no_tbaa --no_cross_call --debug --code_model medium    #
+#                    --data_model medium -o F:\单片机例程\1.程序\IAP\IAP---已 #
+#                    测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\Debu #
+#                    g\Obj\ --dlib_config "D:\Program Files (x86)\IAR         #
+#                    Systems\Embedded Workbench 6.0\stm8\LIB\dlstm8mmn.h"     #
+#                    -lcN F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\ #
+#                    STM8L152R8T6\STM8L152R8T6_IAP_APP\Debug\List\ -I         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\ -I                         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\SDCARD\ -I                  #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\src\ --vregs 16             #
+#    List file    =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\List\i2cDs1307.lst    #
+#    Object file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\i2cDs1307.o       #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\i2cDs1307.c
+      1          #include<iostm8l152R8.h>  /*  头文件 */
+      2          #include "i2cds1307.h"
+      3          
+      4          #define uchar unsigned char
+      5          
+      6          
+      7          //---DS1302写入和读取时分秒的地址命令---//
+      8          //---秒分时日月周年 最低位读写位;-------//
+      9          uchar READ_RTC_ADDR[7] = {0x81, 0x83, 0x85, 0x87, 0x89, 0x8b, 0x8d}; 
+     10          uchar WRITE_RTC_ADDR[7] = {0x80, 0x82, 0x84, 0x86, 0x88, 0x8a, 0x8c};
+     11          
+     12          //---DS1302时钟初始化2013年1月1日星期二12点00分00秒。---//
+     13          //---存储顺序是秒分时日月周年,存储格式是用BCD码---//
+     14          uchar TIME[7] = {0, 0x40, 0x18, 0x01, 0x01, 0x02, 0x18};
+     15          
+     16          //前三位表示秒/分/时  0X39表示39分
+     17          
+     18          /*******************************************************************************
+     19          * 函 数 名         : void Close_DS1302()
+     20          * 函数功能	   : 关闭DS1302.
+     21          * 输    入         : 无
+     22          * 输    出         : 无
+     23          *******************************************************************************/
+     24          void Close_DS1302()
+     25          {
+     26            PC_ODR_bit.ODR5=0;//RST
+     27            PC_ODR_bit.ODR6=0;//DAT
+     28            PC_ODR_bit.ODR7=0;//CLK
+     29          }
+     30          /*******************************************************************************
+     31          * 函 数 名         : Ds1302Init
+     32          * 函数功能	   : 初始化DS1302.
+     33          * 输    入         : 无
+     34          * 输    出         : 无
+     35          *******************************************************************************/
+     36          void Ds1302Init()
+     37          {
+     38            uchar n;
+     39            PC_DDR_bit.DDR5=1;PC_CR1_bit.C15=1;PC_CR2_bit.C25=1;//RST
+     40            PC_DDR_bit.DDR6=1;PC_CR1_bit.C16=1;PC_CR2_bit.C26=1;//DAT
+     41            PC_DDR_bit.DDR7=1;PC_CR1_bit.C17=1;PC_CR2_bit.C27=0;//CLK
+     42            
+     43            
+     44            Ds1302Write(0x8E,0X00);		 //禁止写保护，就是关闭写保护功能
+     45            for (n=0; n<7; n++)//写入7个字节的时钟信号：分秒时日月周年
+     46            {
+     47              Ds1302Write(WRITE_RTC_ADDR[n],TIME[n]);	
+     48            }
+     49            
+     50            Ds1302Write(0x8E,0x80);		 //打开写保护功能
+     51          }
+     52          
+     53          /*******************************************************************************
+     54          * 函 数 名         : Set_1307Time()
+     55          * 函数功能	   : 设置时间
+     56          * 输    入         : 无
+     57          * 输    出         : 无
+     58          *******************************************************************************/
+     59          void Set_1307Time()
+     60          {
+     61            uchar n;
+     62            
+     63            Ds1302Write(0x8E,0X00);		 //禁止写保护，就是关闭写保护功能
+     64            for (n=0; n<7; n++)//写入7个字节的时钟信号：分秒时日月周年
+     65            {
+     66              Ds1302Write(WRITE_RTC_ADDR[n],TIME[n]);	
+     67            }
+     68            Ds1302Write(0x8E,0x80);		 //打开写保护功能
+     69          }
+     70          
+     71          /*******************************************************************************
+     72          * 函 数 名         : Ds1302ReadTime
+     73          * 函数功能	   : 读取时钟信息
+     74          * 输    入         : 无
+     75          * 输    出         : 无
+     76          *******************************************************************************/
+     77          void Ds1302ReadTime()
+     78          {
+     79            uchar n;
+     80            for (n=0; n<7; n++)//读取7个字节的时钟信号：分秒时日月周年
+     81            {
+     82              TIME[n] = Ds1302Read(READ_RTC_ADDR[n]);
+     83            }	
+     84          }
+     85          
+     86          /*******************************************************************************
+     87          * 函 数 名         : Ds1302Write
+     88          * 函数功能	   : 向DS1302命令（地址+数据）
+     89          * 输    入         : addr,dat
+     90          * 输    出         : 无
+     91          *******************************************************************************/
+     92          void Ds1302Write(uchar addr, uchar dat)
+     93          {
+     94          	uchar n;
+     95                  SET_OUT();
+     96          	RST = 0;
+     97          	asm("nop");
+     98          	SCLK = 0;//先将SCLK置低电平。
+     99          	asm("nop");
+    100          	RST = 1; //然后将RST(CE)置高电平。
+    101          	asm("nop");
+    102          
+    103          	for (n=0; n<8; n++)//开始传送八位地址命令
+    104          	{
+    105          		DSIO_OUT = addr & 0x01;//数据从低位开始传送
+    106          		addr >>= 1;
+    107          		SCLK = 1;//数据在上升沿时，DS1302读取数据
+    108          		asm("nop");
+    109          		SCLK = 0;
+    110          		asm("nop");
+    111          	}
+    112          	for (n=0; n<8; n++)//写入8位数据
+    113          	{
+    114          		DSIO_OUT = dat & 0x01;
+    115          		dat >>= 1;
+    116          		SCLK = 1;//数据在上升沿时，DS1302读取数据
+    117          		asm("nop");
+    118          		SCLK = 0;
+    119          		asm("nop");
+    120          	}	
+    121          		 
+    122          	RST = 0;//传送数据结束
+    123          	asm("nop");
+    124          }
+    125          
+    126          /*******************************************************************************
+    127          * 函 数 名         : Ds1302Read
+    128          * 函数功能		   : 读取一个地址的数据
+    129          * 输    入         : addr
+    130          * 输    出         : dat
+    131          *******************************************************************************/
+    132          
+    133          uchar Ds1302Read(uchar addr)
+    134          {
+    135          	uchar n,dat,dat1;
+    136                  SET_OUT();
+    137          	RST = 0;
+    138          	asm("nop");
+    139          	SCLK = 0;//先将SCLK置低电平。
+    140          	asm("nop");
+    141          	RST = 1;//然后将RST(CE)置高电平。
+    142          	asm("nop");
+    143                  
+    144          	for(n=0; n<8; n++)//开始传送八位地址命令
+    145          	{
+    146          		DSIO_OUT = addr & 0x01;//数据从低位开始传送
+    147          		addr >>= 1;
+    148          		SCLK = 1;//数据在上升沿时，DS1302读取数据
+    149          		asm("nop");
+    150          		SCLK = 0;//DS1302下降沿时，放置数据
+    151          		asm("nop");
+    152          	}
+    153          	asm("nop");
+    154                  SET_IN();
+    155          	for(n=0; n<8; n++)//读取8位数据
+    156          	{
+    157          		dat1 = DSIO_IN;//从最低位开始接收
+    158          		dat = (dat>>1) | (dat1<<7);
+    159          		SCLK = 1;
+    160          		asm("nop");
+    161          		SCLK = 0;//DS1302下降沿时，放置数据
+    162          		asm("nop");
+    163          	}
+    164                  SET_OUT();
+    165          	RST = 0;
+    166          	asm("nop");	//以下为DS1302复位的稳定时间,必须的。
+    167          	SCLK = 1;
+    168          	asm("nop");
+    169          	DSIO_OUT = 0;
+    170          	asm("nop");
+    171          	DSIO_OUT = 1;
+    172          	asm("nop");
+    173          	return dat;
+    174          }
+
+   Section sizes:
+
+     Function/Label Bytes
+     -------------- -----
+     _A_PC_ODR         1
+     _A_PC_IDR         1
+     _A_PC_DDR         1
+     _A_PC_CR1         1
+     _A_PC_CR2         1
+     READ_RTC_ADDR     7
+     WRITE_RTC_ADDR    7
+     TIME              7
+     Close_DS1302     13
+     Ds1302Init       92
+     Set_1307Time     56
+     Ds1302ReadTime   37
+     Ds1302Write     111
+     Ds1302Read      164
+
+ 
+ 473 bytes in section .far_func.text
+  21 bytes in section .near.data
+   5 bytes in section .near.noinit
+ 
+ 473 bytes of CODE memory
+  21 bytes of DATA memory (+ 5 bytes shared)
+
+Errors: none
+Warnings: none

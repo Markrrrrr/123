@@ -1,0 +1,359 @@
+###############################################################################
+#                                                                             #
+# IAR ELF Linker V1.30.1.50036 for STM8                 28/Oct/2019  21:00:27 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Output file  =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Exe\KQ_STM8L152K_Test #
+#                    1_GPIO_OutPut_LED.out                                    #
+#    Map file     =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\List\KQ_STM8L152K_Tes #
+#                    t1_GPIO_OutPut_LED.map                                   #
+#    Command line =  F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\AT24C02.o         #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\FSCTR.o           #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\MMC_SD.o          #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\TSM12.o           #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\diskio.o          #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\ff.o              #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\i2cDs1307.o       #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\main.o            #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\oled.o            #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj\spi.o --redirect  #
+#                    _Printf=_PrintfSmall --redirect _Scanf=_ScanfSmall -o    #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\Exe\KQ_STM8L152K_Test #
+#                    1_GPIO_OutPut_LED.out --map                              #
+#                    F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L #
+#                    152R8T6\STM8L152R8T6_IAP_APP\Debug\List\KQ_STM8L152K_Tes #
+#                    t1_GPIO_OutPut_LED.map --config                          #
+#                    F:\单片机例程\1.程序\IAP\其他参考例程\STM8L152R8T6\STM8L #
+#                    152测试TSM121-APP-3\lnkstm8l152r8.icf --config_def       #
+#                    _CSTACK_SIZE=0x100 --config_def _HEAP_SIZE=0x100         #
+#                    --entry __iar_program_start --debug_lib                  #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+__SystemLibrary            = DLib
+__code_model               = medium_or_large
+__core                     = stm8
+__data_model               = medium
+__dlib_file_descriptor     = 0
+__dlib_full_locale_support = 0
+__rt_version               = 4
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A1":  place at start of [0x000000-0x0000ff] { rw section .vregs };
+"A2":  place at end of [0x000000-0x000fff] { block CSTACK };
+"P2":  place in [from 0x000000 to 0x000fff] {
+          block HEAP, rw section .far.bss, rw section .far.data,
+          rw section .far.noinit, rw section .far_func.textrw,
+          rw section .huge.bss, rw section .huge.data, rw section .huge.noinit,
+          rw section .huge_func.textrw, rw section .iar.dynexit,
+          rw section .near.bss, rw section .near.data, rw section .near.noinit,
+          rw section .near_func.textrw };
+"A3":  place at start of [0x00c000-0x00ffff] { block INTVEC };
+"P3":  place in [from 0x00c000 to 0x00ffff] {
+          ro section .far.data_init, ro section .far_func.textrw_init,
+          ro section .huge.data_init, ro section .huge_func.textrw_init,
+          ro section .iar.init_table, ro section .init_array,
+          ro section .near.data_init, ro section .near.rodata,
+          ro section .near_func.text, ro section .near_func.textrw_init,
+          ro section .tiny.data_init, ro section .tiny.rodata_init };
+"P4":  place in [from 0x00c000 to 0x00ffff] |
+                [from 0x010000 to 0x017fff] {
+          ro section .far.rodata, ro section .far_func.text };
+
+  Section            Kind      Address   Size  Object
+  -------            ----      -------   ----  ------
+"A1":                                     0xc
+  .vregs             uninit   0x000000    0xc  vregs.o [4]
+                            - 0x00000c    0xc
+
+"P2", part 1 of 2:                       0x15
+  P2 s0                       0x00000c   0x15  <Init block>
+    .near.data       inited   0x00000c    0x7  i2cDs1307.o [1]
+    .near.data       inited   0x000013    0x7  i2cDs1307.o [1]
+    .near.data       inited   0x00001a    0x7  i2cDs1307.o [1]
+                            - 0x000021   0x15
+
+"P2", part 2 of 2:                        0x4
+  .near.bss          zero     0x000021    0x3  TSM12.o [1]
+  .near.bss          zero     0x000024    0x1  TSM12.o [1]
+                            - 0x000025    0x4
+
+"A2":                                   0x100
+  CSTACK                      0x000f00  0x100  <Block>
+    CSTACK           uninit   0x000f00  0x100  <Block tail>
+                            - 0x001000  0x100
+
+"A3":                                    0x80
+  INTVEC                      0x00c000   0x80  <Block>
+    .intvec          const    0x00c000   0x80  interrupt.o [4]
+                            - 0x00c080   0x80
+
+"P3":                                   0x619
+  .near.rodata       const    0x00c080  0x5f0  oled.o [1]
+  .iar.init_table    const    0x00c670   0x14  - Linker created -
+  Initializer bytes  ro data  0x00c684   0x15  <for P2 s0>
+                            - 0x00c699  0x619
+
+"P4":                                   0xb67
+  .far_func.text     ro code  0x00c699  0x28e  oled.o [1]
+  .far_func.text     ro code  0x00c927  0x1e3  main.o [1]
+  .far_func.text     ro code  0x00cb0a  0x1b9  TSM12.o [1]
+  .far_func.text     ro code  0x00ccc3   0xf0  TSM12.o [1]
+  .far_func.text     ro code  0x00cdb3   0xf0  i2cDs1307.o [1]
+  .far_func.text     ro code  0x00cea3   0xa4  i2cDs1307.o [1]
+  .far_func.text     ro code  0x00cf47   0x53  TSM12.o [1]
+  .far_func.text     ro code  0x00cf9a   0x4e  TSM12.o [1]
+  .far_func.text     ro code  0x00cfe8   0x4c  TSM12.o [1]
+  .far_func.text     ro code  0x00d034   0x4c  TSM12.o [1]
+  .far_func.text     ro code  0x00d080   0x3d  oled.o [1]
+  .far_func.text     ro code  0x00d0bd   0x31  main.o [1]
+  .far_func.text     ro code  0x00d0ee   0x29  TSM12.o [1]
+  .far_func.text     ro code  0x00d117   0x28  init_small.o [4]
+  .far_func.text     ro code  0x00d13f   0x1e  init.o [4]
+  .far_func.text     ro code  0x00d15d   0x1e  init_small.o [4]
+  .far_func.text     ro code  0x00d17b   0x1c  vreg_util.o [4]
+  .far_func.text     ro code  0x00d197   0x17  cstartup.o [4]
+  .far_func.text     ro code  0x00d1ae   0x16  __dbg_xxexit.o [3]
+  .far_func.text     ro code  0x00d1c4   0x13  main.o [1]
+  .far_func.text     ro code  0x00d1d7    0xe  far_util.o [4]
+  .far_func.text     ro code  0x00d1e5    0x6  char.o [4]
+  .far_func.text     ro code  0x00d1eb    0x6  cexit.o [4]
+  .far_func.text     ro code  0x00d1f1    0x4  interrupt.o [4]
+  .far_func.text     ro code  0x00d1f5    0x4  exit.o [4]
+  .far_func.text     ro code  0x00d1f9    0x3  low_level_init.o [4]
+  .far_func.text     ro code  0x00d1fc    0x3  unhandled_exception.o [4]
+  .far_func.text     ro code  0x00d1ff    0x1  __dbg_break.o [3]
+                            - 0x00d200  0xb67
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address   Size
+          -------   ----
+Zero (__iar_zero_init2)
+    1 destination range, total size 0x4:
+          0x000021   0x4
+
+Copy (__iar_copy_init2)
+    1 source range, total size 0x15:
+          0x00c684  0x15
+    1 destination range, total size 0x15:
+          0x00000c  0x15
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                 ro code  ro data  rw data
+    ------                 -------  -------  -------
+F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj: [1]
+    TSM12.o                  1 035                 4
+    i2cDs1307.o                404       21       21
+    main.o                     551
+    oled.o                     715    1 520
+    ------------------------------------------------
+    Total:                   2 705    1 541       25
+
+command line: [2]
+    ------------------------------------------------
+    Total:
+
+dbgstm8mmd.a: [3]
+    __dbg_break.o                1
+    __dbg_xxexit.o              22
+    ------------------------------------------------
+    Total:                      23
+
+dlstm8mmn.a: [4]
+    cexit.o                      6
+    char.o                       6
+    cstartup.o                  23
+    exit.o                       4
+    far_util.o                  14
+    init.o                      30
+    init_small.o                70
+    interrupt.o                  4      128
+    low_level_init.o             3
+    unhandled_exception.o        3
+    vreg_util.o                 28
+    vregs.o                                       12
+    ------------------------------------------------
+    Total:                     191      128       12
+
+    Linker created                       20      256
+----------------------------------------------------
+    Grand Total:             2 919    1 689      293
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                   Address   Size  Type      Object
+-----                   -------   ----  ----      ------
+?b0                    0x000000         Data  Gb  vregs.o [4]
+?b1                    0x000001         Data  Gb  vregs.o [4]
+?b10                   0x00000a         Data  Gb  vregs.o [4]
+?b11                   0x00000b         Data  Gb  vregs.o [4]
+?b2                    0x000002         Data  Gb  vregs.o [4]
+?b3                    0x000003         Data  Gb  vregs.o [4]
+?b4                    0x000004         Data  Gb  vregs.o [4]
+?b5                    0x000005         Data  Gb  vregs.o [4]
+?b6                    0x000006         Data  Gb  vregs.o [4]
+?b7                    0x000007         Data  Gb  vregs.o [4]
+?b8                    0x000008         Data  Gb  vregs.o [4]
+?b9                    0x000009         Data  Gb  vregs.o [4]
+?e0                    0x000001         Data  Gb  vregs.o [4]
+?e1                    0x000005         Data  Gb  vregs.o [4]
+?e2                    0x000009         Data  Gb  vregs.o [4]
+?l0                    0x000000         Data  Gb  vregs.o [4]
+?l1                    0x000004         Data  Gb  vregs.o [4]
+?l2                    0x000008         Data  Gb  vregs.o [4]
+?load24_e1_0x          0x00d1d7         Code  Gb  far_util.o [4]
+?push_w4               0x00d17b         Code  Gb  vreg_util.o [4]
+?srl8_a_a_5            0x00d1e6         Code  Gb  char.o [4]
+?srl8_a_a_6            0x00d1e5         Code  Gb  char.o [4]
+?w0                    0x000000         Data  Gb  vregs.o [4]
+?w1                    0x000002         Data  Gb  vregs.o [4]
+?w2                    0x000004         Data  Gb  vregs.o [4]
+?w3                    0x000006         Data  Gb  vregs.o [4]
+?w4                    0x000008         Data  Gb  vregs.o [4]
+?w5                    0x00000a         Data  Gb  vregs.o [4]
+ALL_LED_Init           0x00d0bd   0x31  Code  Gb  main.o [1]
+CSTACK$$Base           0x000f00          --   Gb  - Linker created -
+CSTACK$$Limit          0x001000          --   Gb  - Linker created -
+Ds1302Init             0x00ce47   0x5c  Code  Gb  i2cDs1307.o [1]
+Ds1302Read             0x00cea3   0xa4  Code  Gb  i2cDs1307.o [1]
+Ds1302ReadTime         0x00ce22   0x25  Code  Gb  i2cDs1307.o [1]
+Ds1302Write            0x00cdb3   0x6f  Code  Gb  i2cDs1307.o [1]
+F8X16                  0x00c080  0x5f0  Data  Gb  oled.o [1]
+IIC_Read_Byte          0x00cd30   0x55  Code  Gb  TSM12.o [1]
+INTVEC$$Base           0x00c000          --   Gb  - Linker created -
+INTVEC$$Limit          0x00c080          --   Gb  - Linker created -
+Key_Value              0x000024    0x1  Data  Gb  TSM12.o [1]
+LED_Fill               0x00c788   0x3c  Code  Gb  oled.o [1]
+LED_P8x16Char          0x00c6f3   0x95  Code  Gb  oled.o [1]
+LED_SetPos             0x00c6d6   0x1d  Code  Gb  oled.o [1]
+LED_WrCmd              0x00c699   0x3d  Code  Gb  oled.o [1]
+LED_WrDat              0x00d080   0x3d  Code  Gb  oled.o [1]
+OLEDIO_Init            0x00c86a   0x41  Code  Gb  oled.o [1]
+OLED_Init              0x00c8ab   0x7c  Code  Gb  oled.o [1]
+READ_RTC_ADDR          0x00000c    0x7  Data  Gb  i2cDs1307.o [1]
+Region$$Table$$Base    0x00c670          --   Gb  - Linker created -
+Region$$Table$$Limit   0x00c684          --   Gb  - Linker created -
+SetAddressingMode      0x00c816    0xe  Code  Gb  oled.o [1]
+SetChargePump          0x00c824   0x10  Code  Gb  oled.o [1]
+SetCommonConfig        0x00c7fa   0x10  Code  Gb  oled.o [1]
+SetCommonRemap         0x00c80a    0x6  Code  Gb  oled.o [1]
+SetContrastControl     0x00c7ec    0xe  Code  Gb  oled.o [1]
+SetDisplayClock        0x00c856    0xe  Code  Gb  oled.o [1]
+SetDisplayOffset       0x00c83a    0xe  Code  Gb  oled.o [1]
+SetDisplayOnOff        0x00c864    0x6  Code  Gb  oled.o [1]
+SetEntireDisplay       0x00c7ca    0x6  Code  Gb  oled.o [1]
+SetInverseDisplay      0x00c7c4    0x6  Code  Gb  oled.o [1]
+SetMultiplexRatio      0x00c848    0xe  Code  Gb  oled.o [1]
+SetPrechargePeriod     0x00c7de    0xe  Code  Gb  oled.o [1]
+SetSegmentRemap        0x00c810    0x6  Code  Gb  oled.o [1]
+SetStartLine           0x00c834    0x6  Code  Gb  oled.o [1]
+SetVCOMH               0x00c7d0    0xe  Code  Gb  oled.o [1]
+TIME                   0x00001a    0x7  Data  Gb  i2cDs1307.o [1]
+TSM12_Exit_Sleep_Mode  0x00cc26   0x15  Code  Gb  TSM12.o [1]
+TSM12_GET_Key          0x00cb8f   0x97  Code  Gb  TSM12.o [1]
+TSM12_IIC_Ack          0x00ccde   0x29  Code  Gb  TSM12.o [1]
+TSM12_IIC_Delay        0x00ccc3   0x1b  Code  Gb  TSM12.o [1]
+TSM12_IIC_Init         0x00cb4a   0x25  Code  Gb  TSM12.o [1]
+TSM12_IIC_NAck         0x00cd07   0x29  Code  Gb  TSM12.o [1]
+TSM12_IIC_Read_Byte    0x00cf9a   0x4e  Code  Gb  TSM12.o [1]
+TSM12_IIC_Send_Byte    0x00d034   0x4c  Code  Gb  TSM12.o [1]
+TSM12_IIC_Start        0x00d0ee   0x29  Code  Gb  TSM12.o [1]
+TSM12_IIC_Stop         0x00cd85   0x2e  Code  Gb  TSM12.o [1]
+TSM12_IIC_Wait_Ack     0x00cfe8   0x4c  Code  Gb  TSM12.o [1]
+TSM12_Init             0x00cc3b   0x88  Code  Gb  TSM12.o [1]
+TSM12_READ_KEY         0x00cb6f   0x20  Code  Gb  TSM12.o [1]
+TSM12_TSM_Write_2Byte  0x00cf47   0x53  Code  Gb  TSM12.o [1]
+TSM12_Value            0x000021    0x3  Data  Gb  TSM12.o [1]
+TSM12_Write_Byte       0x00cb0a   0x40  Code  Gb  TSM12.o [1]
+WRITE_RTC_ADDR         0x000013    0x7  Data  Gb  i2cDs1307.o [1]
+__DebugBreak           0x00d1ff    0x1  Code  Gb  __dbg_break.o [3]
+__exit                 0x00d1ae   0x16  Code  Gb  __dbg_xxexit.o [3]
+__iar_copy_init2       0x00d117         Code  Gb  init_small.o [4]
+__iar_data_init2       0x00d13f   0x1e  Code  Gb  init.o [4]
+__iar_program_start    0x00d197         Code  Gb  cstartup.o [4]
+__iar_unhandled_exception
+                       0x00d1fc         Code  Gb  unhandled_exception.o [4]
+__iar_zero_init2       0x00d15d         Code  Gb  init_small.o [4]
+__intvec               0x00c000         Data  Gb  interrupt.o [4]
+__low_level_init       0x00d1f9    0x3  Code  Gb  low_level_init.o [4]
+_exit                  0x00d1eb         Code  Gb  cexit.o [4]
+_interrupt_1           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_10          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_11          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_12          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_13          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_14          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_15          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_16          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_17          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_18          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_19          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_2           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_20          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_21          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_22          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_23          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_24          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_25          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_26          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_27          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_28          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_29          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_3           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_30          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_31          0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_4           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_5           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_6           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_7           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_8           0x00d1f1         Code  Wk  interrupt.o [4]
+_interrupt_9           0x00d1f1         Code  Wk  interrupt.o [4]
+delay                  0x00d1c4   0x13  Code  Gb  main.o [1]
+exit                   0x00d1f5    0x4  Code  Gb  exit.o [4]
+main                   0x00c927  0x1e3  Code  Gb  main.o [1]
+
+
+[1] = F:\单片机例程\1.程序\IAP\IAP---已测试【2019.7.15】\STM8L152R8T6\STM8L152R8T6_IAP_APP\Debug\Obj
+[2] = command line
+[3] = dbgstm8mmd.a
+[4] = dlstm8mmn.a
+
+  2 919 bytes of readonly  code memory
+  1 689 bytes of readonly  data memory
+    293 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
